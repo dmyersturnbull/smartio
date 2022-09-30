@@ -1,0 +1,118 @@
+[metadata]
+description-file = "README.md"
+
+[build-system]
+# virtualenv 20.0.34 partly breaks pre-commit under conda
+# https://github.com/ContinuumIO/anaconda-issues/issues/12094
+# Poetry uses pip and setuptools (although they're not included as dependencies)
+# We don't need to list wheel here, but setting a min vr can avoid generating inferior wheels
+requires = ["poetry>=1.2,<2", "virtualenv>=20", "wheel>=0.36,<1.0"]
+build-backend = "poetry.masonry.api"
+
+
+#########################################################################################
+# Poetry metadata
+#########################################################################################
+
+[tool.poetry]
+name = "smartio"
+version = "0.1.0"
+description = "Adorable little Python code for you to copy or import."
+keywords = ["python", "models", "json-schema", "iso-8601"]
+authors = ["Douglas Myers-Turnbull"]
+maintainers = ["Douglas Myers-Turnbull"]
+license = "Apache-2.0"
+readme = "README.md"
+homepage = "https://github.com/dmyersturnbull/smartio"
+repository = "https://github.com/dmyersturnbull/smartio"
+documentation = "https://github.com/dmyersturnbull/smartio"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Natural Language :: English",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+	"Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]
+
+[tool.poetry.urls]
+CI = "https://github.com/dmyersturnbull/smartio/actions"
+Issues = "https://github.com/dmyersturnbull/smartio/issues"
+Download = "https://pypi.org/project/smartio/"
+Changelog = "https://github.com/dmyersturnbull/smartio/blob/main/CHANGELOG.md"
+
+
+#########################################################################################
+# Poetry build & dependencies
+#########################################################################################
+
+[tool.poetry.dependencies]
+python                   = "^3.7"
+brotli                   = {version=">=1", optional=true}
+lz4                      = {version=">=4", optional=true}
+orjson                   = {version="^3.6", optional=true}
+pandas                   = ">=1"  # TODO: drop
+regex                    = ">=2021"
+zstandard                = {version=">=0.18", optional=true}
+
+[tool.poetry.group.test.dependencies]
+pre-commit               = "^2.20"
+bandit                   = "^1.7"
+hypothesis               = "^6"
+pytest                   = "^7"
+coverage                 = {extras = ["toml"], version = "^6"}
+pytest-cov               = "^3"
+flake8                   = "^5"
+flake8-bugbear           = ">=22.9"
+flake8-docstrings        = "^1.6"
+
+[tool.poetry.extras]
+zstd = ["zstandard"]
+lz4 = ["lz4"]
+brotli = ["brotli"]
+
+all = [
+    "brotli",
+    "lz4",
+    "zstd",
+]
+
+#########################################################################################
+# Testing
+#########################################################################################
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(name)s: %(message)s (%(filename)s:%(lineno)s)"
+log_cli_date_format = "%Y-%m-%d %H:%M:%S"
+
+
+#########################################################################################
+# Style checking
+#########################################################################################
+
+[tool.coverage.paths]
+source = ["smartio"]
+
+[tool.coverage.run]
+source = ["smartio"]
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.black]
+line-length = 100
+target-version = ["py37", "py38", "py39", "py310", "py311"]
+
+[tool.isort]
+line_length = 100
+
+[mypy]
+check_untyped_defs = true
+strict_optional = true
