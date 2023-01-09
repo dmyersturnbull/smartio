@@ -55,7 +55,7 @@ Changelog = "https://github.com/dmyersturnbull/smartio/blob/main/CHANGELOG.md"
 python                   = "^3.7"
 brotli                   = {version=">=1", optional=true}
 lz4                      = {version=">=4", optional=true}
-orjson                   = {version="^3.6", optional=true}
+orjson                   = {version="^3.8", optional=true}
 pandas                   = ">=1"  # TODO: drop
 regex                    = ">=2021"
 zstandard                = {version=">=0.18", optional=true}
